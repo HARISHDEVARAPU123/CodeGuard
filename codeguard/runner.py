@@ -7,7 +7,10 @@ from collections.abc import Sequence
 from pathlib import Path
 
 from codeguard.checkers.base import Checker
+from codeguard.checkers.formatting import FormattingChecker
 from codeguard.checkers.secrets import SecretsChecker
+from codeguard.checkers.static_analysis import StaticAnalysisChecker
+from codeguard.checkers.tests import TestsChecker
 from codeguard.config import Config
 from codeguard.models import CHECK_NAMES, CheckResult, Report
 
@@ -18,7 +21,12 @@ class RunnerError(Exception):
 
 def default_checkers() -> list[Checker]:
     """Return the built-in checkers that are implemented so far."""
-    return [SecretsChecker()]
+    return [
+        FormattingChecker(),
+        StaticAnalysisChecker(),
+        TestsChecker(),
+        SecretsChecker(),
+    ]
 
 
 def run_checks(

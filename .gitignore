@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.ruff_cache/
+
+# Maven / Java
+target/
+*.class
+*.jar
+
+# CodeGuard Generated Reports
+report.html
+report.json
+report.md
+
+# Virtual environments
+.venv/
+venv/
+ENV/

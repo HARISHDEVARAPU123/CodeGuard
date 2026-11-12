@@ -32,16 +32,12 @@ _MIN_ASSIGNMENT_LENGTH = 8
 _ALLOW = re.compile(r"codeguard:allow\b")
 _HUNK = re.compile(r"^@@ -\d+(?:,\d+)? \+(\d+)(?:,\d+)? @@")
 _AWS_ACCESS = re.compile(r"\bAKIA[0-9A-Z]{16}\b")
-_AWS_SECRET = re.compile(
-    r"(?i)\baws_secret_access_key\b\s*[=:]\s*['\"]?([A-Za-z0-9/+=]{40})"
-)
+_AWS_SECRET = re.compile(r"(?i)\baws_secret_access_key\b\s*[=:]\s*['\"]?([A-Za-z0-9/+=]{40})")
 _GITHUB = re.compile(
     r"\b(?:ghp_[A-Za-z0-9]{36}|gho_[A-Za-z0-9]{36}|ghu_[A-Za-z0-9]{36}|"
     r"ghs_[A-Za-z0-9]{36}|ghr_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{20,})\b"
 )
-_PRIVATE_KEY = re.compile(
-    r"-----BEGIN (?:RSA |OPENSSH |EC |DSA |ENCRYPTED )?PRIVATE KEY-----"
-)
+_PRIVATE_KEY = re.compile(r"-----BEGIN (?:RSA |OPENSSH |EC |DSA |ENCRYPTED )?PRIVATE KEY-----")
 _JWT = re.compile(
     r"(?<![A-Za-z0-9_-])"
     r"eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}"
@@ -155,9 +151,7 @@ def load_ignore_patterns(repo: Path) -> list[str]:
     return patterns
 
 
-def find_secrets_in_text(
-    relative_path: str, text: str, entropy_threshold: float
-) -> list[Finding]:
+def find_secrets_in_text(relative_path: str, text: str, entropy_threshold: float) -> list[Finding]:
     """Return secret findings in ``text`` using 1-based line numbers."""
     findings: list[Finding] = []
     for number, line in enumerate(text.splitlines(), start=1):
@@ -370,15 +364,14 @@ def _inside_work_tree(repo: Path, git: str) -> bool:
     return completed.stdout.strip() == "true"
 
 
-def _git_added_lines(
-    repo: Path, git: str
-) -> tuple[list[tuple[str, int, str]], str | None]:
+def _git_added_lines(repo: Path, git: str) -> tuple[list[tuple[str, int, str]], str | None]:
     commands = [
         ["diff", "--unified=0", "--no-ext-diff", "--no-color"],
         ["diff", "--cached", "--unified=0", "--no-ext-diff", "--no-color"],
     ]
     base = os.environ.get("GITHUB_BASE_REF") or os.environ.get("CODEGUARD_BASE_REF")
     if base:
+        commands.append(["diff", "--unified=0", "--no-ext-diff", "--no-color", f"{base}...HEAD"])
         commands.append(
             ["diff", "--unified=0", "--no-ext-diff", "--no-color", f"origin/{base}...HEAD"]
         )
@@ -393,9 +386,7 @@ def _git_added_lines(
     return added, None
 
 
-def _run_git(
-    repo: Path, git: str, args: list[str]
-) -> subprocess.CompletedProcess[str] | None:
+def _run_git(repo: Path, git: str, args: list[str]) -> subprocess.CompletedProcess[str] | None:
     env = os.environ.copy()
     env["GIT_TERMINAL_PROMPT"] = "0"
     try:

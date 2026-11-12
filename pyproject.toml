@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Automated pre-merge quality gate for GitHub repositories."
 requires-python = ">=3.11"
 dependencies = [
+    "defusedxml>=0.7.1",
     "Jinja2>=3.1",
     "PyYAML>=6.0",
     "rich>=13.0",
@@ -29,6 +30,7 @@ include = ["codeguard*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]
 norecursedirs = [
     "fixtures",
     "*.egg",
@@ -43,6 +45,7 @@ norecursedirs = [
 target-version = "py311"
 line-length = 100
 src = ["codeguard", "tests"]
+extend-exclude = ["tests/fixtures", "sample-java-app"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
@@ -55,4 +58,8 @@ target-version = ["py311"]
 line-length = 100
 
 [tool.bandit]
-exclude_dirs = ["tests/fixtures", "sample-java-app/src/demo-bad"]
+# B101: assert_used (extensively used across pytest suites).
+# B404, B603: subprocess calls are audited, strictly invoking vetted tool binaries
+# (ruff, black, bandit, pytest, git, mvn) using argument lists without shell=True.
+skips = ["B101", "B404", "B603"]
+exclude_dirs = ["tests", "tests/fixtures", "sample-java-app/src/demo-bad"]

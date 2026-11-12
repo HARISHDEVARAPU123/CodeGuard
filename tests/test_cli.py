@@ -101,14 +101,12 @@ def test_only_skips_checks_that_were_not_named(tmp_path: Path) -> None:
     assert tests.calls == 1
 
 
-def test_file_formats_are_accepted_but_not_written(
-    tmp_path: Path, capsys: pytest.CaptureFixture[str]
-) -> None:
+def test_file_formats_are_written(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
     code = main(["run", "--path", str(tmp_path), "--format", "all"], checkers=[])
-    captured = capsys.readouterr()
     assert code == 0
-    assert "markdown, html, json" in captured.err
-    assert not (tmp_path / "report.md").exists()
+    assert (tmp_path / "report.md").is_file()
+    assert (tmp_path / "report.html").is_file()
+    assert (tmp_path / "report.json").is_file()
 
 
 def test_bad_only_flag_is_exit_2(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:

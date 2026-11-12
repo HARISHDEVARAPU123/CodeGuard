@@ -11,6 +11,7 @@ from codeguard import __version__
 from codeguard.checkers.base import Checker
 from codeguard.config import ConfigError, resolve_config
 from codeguard.models import CHECK_NAMES, CheckResult, Finding, Report, Severity, parse_severity
+from codeguard.reporting import render_console, write_reports
 from codeguard.runner import RunnerError, default_checkers, run_checks
 
 FORMAT_NAMES: tuple[str, ...] = ("console", "markdown", "html", "json", "all")
@@ -95,13 +96,9 @@ def main(
         print(f"codeguard: {exc}", file=sys.stderr)
         return 2
 
-    print(format_summary(report))
-    pending = [name for name in formats if name in _FILE_FORMATS]
-    if pending:
-        print(
-            "codeguard: file reports are not written yet: " + ", ".join(pending),
-            file=sys.stderr,
-        )
+    if "console" in formats:
+        render_console(report)
+    write_reports(report, repo, formats)
     return report.exit_code()
 
 

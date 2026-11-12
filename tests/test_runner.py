@@ -17,7 +17,8 @@ def test_checker_cannot_be_instantiated() -> None:
 
 
 def test_default_checkers_include_the_secrets_scanner() -> None:
-    assert [checker.name for checker in default_checkers()] == ["secrets"]
+    names = [checker.name for checker in default_checkers()]
+    assert "secrets" in names
 
 
 def test_disabled_check_is_skipped(tmp_path: Path) -> None:
