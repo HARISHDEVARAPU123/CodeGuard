@@ -1,0 +1,58 @@
+[project]
+name = "codeguard"
+version = "0.1.0"
+description = "Automated pre-merge quality gate for GitHub repositories."
+requires-python = ">=3.11"
+dependencies = [
+    "Jinja2>=3.1",
+    "PyYAML>=6.0",
+    "rich>=13.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "bandit>=1.7",
+    "black>=24.0",
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+
+[project.scripts]
+codeguard = "codeguard.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["codeguard*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = [
+    "fixtures",
+    "*.egg",
+    ".*",
+    "build",
+    "dist",
+    "node_modules",
+    "*.egg-info",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["codeguard", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["codeguard", "tests"]
+
+[tool.black]
+target-version = ["py311"]
+line-length = 100
+
+[tool.bandit]
+exclude_dirs = ["tests/fixtures", "sample-java-app/src/demo-bad"]

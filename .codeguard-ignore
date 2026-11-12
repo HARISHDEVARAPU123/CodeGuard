@@ -1,0 +1,3 @@
+# Secrets scanner skip list. These trees contain intentional fake secrets.
+tests/fixtures/
+sample-java-app/src/demo-bad/

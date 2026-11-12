@@ -1,0 +1,34 @@
+# Default CodeGuard configuration.
+# tests/fixtures and the demo-bad Java file hold intentional fakes.
+# They are excluded so this repo's own gate stays green.
+fail_on: HIGH
+
+checks:
+  formatting: true
+  static_analysis: true
+  tests: true
+  secrets: true
+
+excludes:
+  - .git
+  - .venv
+  - venv
+  - __pycache__
+  - .pytest_cache
+  - target
+  - dist
+  - build
+  - htmlcov
+  - "*.egg-info"
+  - tests/fixtures
+  - sample-java-app/src/demo-bad
+
+secrets:
+  entropy_threshold: 4.0
+
+formatting:
+  python: ruff
+
+tests:
+  pytest_args: []
+  maven_args: []

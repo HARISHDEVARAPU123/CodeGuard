@@ -1,0 +1,13 @@
+Metadata-Version: 2.4
+Name: codeguard
+Version: 0.1.0
+Summary: Automated pre-merge quality gate for GitHub repositories.
+Requires-Python: >=3.11
+Requires-Dist: Jinja2>=3.1
+Requires-Dist: PyYAML>=6.0
+Requires-Dist: rich>=13.0
+Provides-Extra: dev
+Requires-Dist: bandit>=1.7; extra == "dev"
+Requires-Dist: black>=24.0; extra == "dev"
+Requires-Dist: pytest>=8.0; extra == "dev"
+Requires-Dist: ruff>=0.6; extra == "dev"
